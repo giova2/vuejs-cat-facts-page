@@ -10,7 +10,15 @@
         <!-- envuelvo el contenido que quiero paginar con el objeto paginador (vue-paginate) -->
         <paginate ref="paginator" name="facts" :list="facts" :per="3">
           <!-- recorremos los valores y mostramos la información dato valor por valor -->
-          <div class="card mb-2 bg-light" v-for="fact in paginated('facts')" v-bind:key="fact._id">
+          <div v-if="facts.length===0" class="loading">
+            <img src="../assets/imeyrt.svg" />
+          </div>
+          <div
+            v-if="facts.length!==0"
+            class="card mb-2 bg-light"
+            v-for="fact in paginated('facts')"
+            v-bind:key="fact._id"
+          >
             <router-link :to="{ name: 'fact', params: { id: fact._id, info: fact} }">
               <div class="card-body">
                 <h5 class="card-title">{{ fact.type }}</h5>
@@ -61,6 +69,32 @@ export default {
 
 
 <style>
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+.loading img {
+  width: 10vmin;
+  animation: zoom 1s infinite alternate-reverse;
+}
+@keyframes zoom {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+.card a {
+  transition: all 200ms ease-in;
+}
+.card a:hover {
+  background: #64bf92;
+  text-decoration: none;
+}
 .paginate-links {
   width: 100%;
   list-style: none;
