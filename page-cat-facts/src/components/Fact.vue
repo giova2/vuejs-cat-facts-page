@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="col-12 mt-4">
-        <router-link to="/">
+        <router-link :to="{ name: 'facts'}">
           <button type="button" class="btn btn-outline-primary">Volver</button>
         </router-link>
       </div>

@@ -12,7 +12,7 @@
           <!-- recorremos los valores y mostramos la información dato valor por valor -->
           <transition-group class="fade-container" name="fade" mode="in-out" tag="div">
             <div v-if="facts.length===0" class="loading" key="loading">
-              <img src="../assets/imeyrt.svg" />
+              <img src="/assets/imeyrt.svg" />
             </div>
             <div
               v-if="facts.length!==0"
