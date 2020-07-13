@@ -12,7 +12,7 @@
           <!-- recorremos los valores y mostramos la información dato valor por valor -->
           <transition-group class="fade-container" name="fade" mode="in-out" tag="div">
             <div v-if="facts.length===0" class="loading" key="loading">
-              <img src="/assets/imeyrt.svg" />
+              <img :src="loading_img" />
             </div>
             <div
               v-if="facts.length!==0"
@@ -50,12 +50,19 @@ export default {
   data() {
     return {
       facts: [],
-      paginate: ["facts"]
+      paginate: ["facts"],
+      loading_img: `${
+        process.env.VUE_APP_LOADING_IMG ? process.env.VUE_APP_LOADING_IMG : ""
+      }/assets/imeyrt.svg`
     };
   },
 
   created() {
     this.getFacts();
+  },
+  mounted() {
+    console.log({ "process.envLOADING": process.env.VUE_APP_LOADING_IMG });
+    console.log({ "process.env": process.env.VUE_APP_BASE_URL });
   },
 
   methods: {
