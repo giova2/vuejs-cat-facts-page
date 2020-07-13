@@ -10,23 +10,26 @@
         <!-- envuelvo el contenido que quiero paginar con el objeto paginador (vue-paginate) -->
         <paginate ref="paginator" name="facts" :list="facts" :per="3">
           <!-- recorremos los valores y mostramos la información dato valor por valor -->
-          <div v-if="facts.length===0" class="loading">
-            <img src="../assets/imeyrt.svg" />
-          </div>
-          <div
-            v-if="facts.length!==0"
-            class="card mb-2 bg-light"
-            v-for="fact in paginated('facts')"
-            v-bind:key="fact._id"
-          >
-            <router-link :to="{ name: 'fact', params: { id: fact._id, info: fact} }">
-              <div class="card-body">
-                <h5 class="card-title">{{ fact.type }}</h5>
-                <p class="card-text">{{ fact.text }}</p>
-              </div>
-            </router-link>
-          </div>
+          <transition-group class="fade-container" name="fade" mode="in-out" tag="div">
+            <div v-if="facts.length===0" class="loading" key="loading">
+              <img src="../assets/imeyrt.svg" />
+            </div>
+            <div
+              v-if="facts.length!==0"
+              class="card mb-2 bg-light cat-fact"
+              v-for="fact in paginated('facts')"
+              v-bind:key="fact._id"
+            >
+              <router-link :to="{ name: 'fact', params: { id: fact._id, info: fact} }">
+                <div class="card-body">
+                  <h5 class="card-title">{{ fact.type }}</h5>
+                  <p class="card-text">{{ fact.text }}</p>
+                </div>
+              </router-link>
+            </div>
+          </transition-group>
         </paginate>
+
         <paginate-links
           for="facts"
           :show-step-links="true"
@@ -88,12 +91,27 @@ export default {
     transform: scale(1.3);
   }
 }
+.card.cat-fact {
+  height: 25vmin;
+  text-align: center;
+}
 .card a {
+  height: 100%;
   transition: all 200ms ease-in;
 }
 .card a:hover {
   background: #64bf92;
   text-decoration: none;
+}
+.card-body {
+  overflow: auto;
+  height: 100%;
+}
+.card-title {
+  font-size: 5vmin;
+}
+.card-text {
+  font-size: 3vmin;
 }
 .paginate-links {
   width: 100%;
@@ -114,5 +132,26 @@ export default {
   width: 100%;
   text-align: center;
   margin-bottom: 1rem;
+}
+
+.fade-container {
+  height: 80vmin;
+}
+
+.fade-enter-active {
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1) 0.3s;
+}
+.fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.fade-enter {
+  filter: blur(3px) opacity(0);
+}
+.fade-leave-to {
+  filter: blur(3px) opacity(0);
+}
+.fade-enter-to,
+.fade-leave {
+  filter: blur(0px) opacity(1);
 }
 </style>

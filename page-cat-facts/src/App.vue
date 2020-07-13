@@ -22,12 +22,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 10vmin;
-  /* display: flex;
+  /* margin-top: 10vmin; */
+  display: flex;
   justify-content: center;
   height: 100vh;
   flex-direction: column;
-  overflow: hidden; */
+  overflow: hidden;
 }
 
 h1,
