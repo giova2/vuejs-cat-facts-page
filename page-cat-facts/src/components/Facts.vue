@@ -66,6 +66,7 @@ export default {
 
   created() {
     this.getFacts();
+    console.log(process.env.NODE_ENV);
   },
 
   methods: {
