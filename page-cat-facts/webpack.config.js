@@ -2,34 +2,6 @@ var path = require("path");
 var webpack = require("webpack");
 
 module.exports = env => {
-  let devtool = "#eval-source-map";
-  let plugins = [].concat([
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: '"development"'
-      }
-    })
-  ]);
-  if (env === "production") {
-    devtool = "#source-map";
-    // http://vue-loader.vuejs.org/en/workflow/production.html
-    plugins = [].concat([
-      new webpack.DefinePlugin({
-        "process.env": {
-          NODE_ENV: '"production"'
-        }
-      }),
-      new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true,
-        compress: {
-          warnings: false
-        }
-      }),
-      new webpack.LoaderOptionsPlugin({
-        minimize: true
-      })
-    ]);
-  }
   return {
     entry: "./src/main.js",
     output: {
@@ -80,17 +52,33 @@ module.exports = env => {
       hints: false
     },
     devtool: "#eval-source-map",
-    plugins: plugins
+    plugins: [].concat([
+      new webpack.DefinePlugin({
+        "process.env": {
+          NODE_ENV: '"development"'
+        }
+      })
+    ])
   };
 };
 
-// if (process.env.NODE_ENV === "production") {
-// } else {
-//   module.exports.plugins = (module.exports.plugins || []).concat([
-//     new webpack.DefinePlugin({
-//       "process.env": {
-//         NODE_ENV: '"developement"'
-//       }
-//     })
-//   ]);
-// }
+if (process.env.NODE_ENV === "production") {
+  module.exports.devtool = "#source-map";
+  // http://vue-loader.vuejs.org/en/workflow/production.html
+  module.exports.plugins = [].concat([
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: '"production"'
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true
+    })
+  ]);
+}
