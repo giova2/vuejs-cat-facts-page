@@ -3,12 +3,12 @@ import Fact from "./components/Fact.vue";
 
 export default [
   {
-    path: process.env.BASE_URL + "/",
+    path: "/",
     name: "facts",
     component: Facts
   },
   {
-    path: `${process.env.BASE_URL}/fact/:id`,
+    path: `/fact/:id`,
     name: "fact",
     component: Fact
   },

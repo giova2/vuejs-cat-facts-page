@@ -10,20 +10,28 @@
         <!-- envuelvo el contenido que quiero paginar con el objeto paginador (vue-paginate) -->
         <paginate ref="paginator" name="facts" :list="facts" :per="3">
           <!-- recorremos los valores y mostramos la información dato valor por valor -->
-          <transition-group class="fade-container" name="fade" mode="in-out" tag="div">
-            <div v-if="facts.length===0" class="loading" key="loading">
+          <transition-group
+            class="fade-container"
+            name="fade"
+            mode="in-out"
+            tag="div"
+          >
+            <div v-if="facts.length === 0" class="loading" key="loading">
               <img :src="loading_img" />
             </div>
             <div
-              v-if="facts.length!==0"
+              v-if="facts.length !== 0"
               class="card mb-2 bg-light cat-fact"
               v-for="fact in paginated('facts')"
               v-bind:key="fact._id"
             >
-              <router-link :to="{ name: 'fact', params: { id: fact._id, info: fact} }">
+              <router-link
+                :to="{ name: 'fact', params: { id: fact._id, info: fact } }"
+              >
                 <div class="card-body">
                   <h5 class="card-title">{{ fact.type }}</h5>
                   <p class="card-text">{{ fact.text }}</p>
+                  <!-- <span>Votes: {{ fact.upvotes }}</span> -->
                 </div>
               </router-link>
             </div>
@@ -34,35 +42,30 @@
           for="facts"
           :show-step-links="true"
           :simple="{
-                    prev: 'Anterior',
-                    next: 'Siguiente'  
-                }"
+            prev: 'Anterior',
+            next: 'Siguiente'
+          }"
         ></paginate-links>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-// import fs from 'fs';
+import * as env from "../environment.js";
 export default {
   data() {
     return {
       facts: [],
       paginate: ["facts"],
-      loading_img: `${
-        process.env.VUE_APP_LOADING_IMG ? process.env.VUE_APP_LOADING_IMG : ""
-      }/assets/imeyrt.svg`
+      loading_img: `${env[process.env.NODE_ENV].VUE_APP_BASE_URL}${
+        env[process.env.NODE_ENV].VUE_APP_LOADING_IMG
+      }`
     };
   },
 
   created() {
     this.getFacts();
-  },
-  mounted() {
-    console.log({ "process.envLOADING": process.env.VUE_APP_LOADING_IMG });
-    console.log({ "process.env": process.env.VUE_APP_BASE_URL });
   },
 
   methods: {
@@ -76,7 +79,6 @@ export default {
   }
 };
 </script>
-
 
 <style>
 .loading {

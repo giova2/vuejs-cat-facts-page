@@ -7,26 +7,31 @@
             <h5 class="card-title">Cat Fact</h5>
             <p class="card-text">{{ fact.type }}</p>
             <p class="card-text">{{ fact.text }}</p>
-            <h6 class="card-subtitle mb-2">Votos: {{ $route.params.info.upvotes }}</h6>
-            <h6 v-if="hasUser($route.params.info)" class="card-subtitle mb-2">
-              Publicado por:
-              {{ $route.params.info.user.name.first + ' ' +$route.params.info.user.name.last }}
+            <h6 v-if="fact.upvotes" class="card-subtitle mb-2">
+              Votes: {{ fact.upvotes }}
+            </h6>
+            <h6 v-if="hasUser()" class="card-subtitle mb-2">
+              Publisheed by:
+              {{
+                $route.params.info.user.name.first +
+                  " " +
+                  $route.params.info.user.name.last
+              }}
             </h6>
           </div>
           <div class="card-footer">
-            <span>Fecha de Creación: {{ fecha(fact.createdAt) }}</span>
+            <span>Created at: {{ fecha(fact.createdAt) }}</span>
           </div>
         </div>
       </div>
       <div class="col-12 mt-4">
-        <router-link :to="{ name: 'facts'}">
-          <button type="button" class="btn btn-outline-primary">Volver</button>
+        <router-link :to="{ name: 'facts' }">
+          <button type="button" class="btn btn-outline-primary">Go Back</button>
         </router-link>
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
 import moment from "moment";
@@ -77,8 +82,11 @@ export default {
     },
 
     // compruebo que exista la propiedad user, algunos objetos devueltos por la API no tenian esta prop
-    hasUser(variable) {
-      return variable.hasOwnProperty("user");
+    hasUser() {
+      // return this.$route && this.$route.params &&
+      return this.$route.params.info
+        ? this.$route.params.info.hasOwnProperty("user")
+        : false;
     },
 
     //formateo la fecha para mostrarla como quiero
@@ -91,7 +99,15 @@ export default {
       let vm = this;
       fetch("https://cat-fact.herokuapp.com/facts/" + id)
         .then(response => response.json())
-        .then(data => (vm.fact = data));
+        .then(data => {
+          vm.fact = data;
+          vm.fact.upvotes =
+            // $route &&
+            // $route.params &&
+            vm.$route.params.info && vm.$route.params.info.upvotes
+              ? vm.$route.params.info.upvotes
+              : false;
+        });
     }
   }
 };
