@@ -51,34 +51,37 @@ module.exports = env => {
     performance: {
       hints: false
     },
-    devtool: "#eval-source-map",
-    plugins: [].concat([
-      new webpack.DefinePlugin({
-        "process.env": {
-          NODE_ENV: '"development"'
-        }
-      })
-    ])
+    devtool: env === "development" ? "#eval-source-map" : "#source-map",
+    plugins:
+      env === "development"
+        ? [].concat([
+            new webpack.DefinePlugin({
+              "process.env": {
+                NODE_ENV: '"development"'
+              }
+            })
+          ])
+        : [].concat([
+            new webpack.DefinePlugin({
+              "process.env": {
+                NODE_ENV: '"production"'
+              }
+            }),
+            new webpack.optimize.UglifyJsPlugin({
+              sourceMap: true,
+              compress: {
+                warnings: false
+              }
+            }),
+            new webpack.LoaderOptionsPlugin({
+              minimize: true
+            })
+          ])
   };
 };
 
-if (process.env.NODE_ENV !== "development") {
-  module.exports.devtool = "#source-map";
-  // http://vue-loader.vuejs.org/en/workflow/production.html
-  module.exports.plugins = [].concat([
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  ]);
-}
+// if (process.env.NODE_ENV !== "development") {
+//   module.exports.devtool = "#source-map";
+//   // http://vue-loader.vuejs.org/en/workflow/production.html
+//   // module.exports.plugins =
+// }
