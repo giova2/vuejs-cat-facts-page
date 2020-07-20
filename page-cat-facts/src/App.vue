@@ -95,4 +95,15 @@ a {
 .slide-fade-right-leave {
   transform: translateX(0);
 }
+
+.card-title {
+  font-size: 5vmin;
+}
+.card-text {
+  font-size: 3vmin;
+}
+.card-body {
+  overflow: auto;
+  height: 100%;
+}
 </style>

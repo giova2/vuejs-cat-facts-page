@@ -7,15 +7,13 @@
             <h5 class="card-title">Cat Fact</h5>
             <p class="card-text">{{ fact.type }}</p>
             <p class="card-text">{{ fact.text }}</p>
-            <h6 v-if="fact.upvotes" class="card-subtitle mb-2">
-              Votes: {{ fact.upvotes }}
-            </h6>
+            <h6 v-if="fact.upvotes" class="card-subtitle mb-2">Votes: {{ fact.upvotes }}</h6>
             <h6 v-if="hasUser()" class="card-subtitle mb-2">
               Publisheed by:
               {{
-                $route.params.info.user.name.first +
-                  " " +
-                  $route.params.info.user.name.last
+              $route.params.info.user.name.first +
+              " " +
+              $route.params.info.user.name.last
               }}
             </h6>
           </div>
@@ -26,7 +24,7 @@
       </div>
       <div class="col-12 mt-4">
         <router-link :to="{ name: 'facts' }">
-          <button type="button" class="btn btn-outline-primary">Go Back</button>
+          <button type="button" class="btn btn-outline-primary go-back">Go Back</button>
         </router-link>
       </div>
     </div>
@@ -112,3 +110,8 @@ export default {
   }
 };
 </script>
+<style>
+.go-back {
+  font-size: 2vmin;
+}
+</style>
