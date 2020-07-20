@@ -109,9 +109,10 @@ export default {
   width: 100%;
   list-style: none;
   text-align: center;
+  display: flex;
 }
 .paginate-links li {
-  display: inline-block;
+  display: flex;
   width: 48%;
   font-size: 2vmax;
   background-color: #64bf92;
@@ -121,6 +122,9 @@ export default {
   margin-right: 0.3rem;
   cursor: pointer;
   border-radius: 3px;
+}
+.paginate-links li a {
+  width: 100%;
 }
 .paginate-result {
   width: 100%;
