@@ -10,7 +10,12 @@
         <!-- envuelvo el contenido que quiero paginar con el objeto paginador (vue-paginate) -->
         <paginate ref="paginator" name="facts" :list="facts" :per="3">
           <!-- recorremos los valores y mostramos la información dato valor por valor -->
-          <transition-group class="fade-container" name="fade" mode="in-out" tag="div">
+          <transition-group
+            class="fade-container"
+            name="fade"
+            mode="in-out"
+            tag="div"
+          >
             <div v-if="facts.length === 0" class="loading" key="loading">
               <img :src="loading_img" />
             </div>
@@ -20,7 +25,9 @@
               v-for="fact in paginated('facts')"
               v-bind:key="fact._id"
             >
-              <router-link :to="{ name: 'fact', params: { id: fact._id, info: fact } }">
+              <router-link
+                :to="{ name: 'fact', params: { id: fact._id, info: fact } }"
+              >
                 <div class="card-body">
                   <h5 class="card-title">{{ fact.type }}</h5>
                   <p class="card-text">{{ fact.text }}</p>
@@ -67,7 +74,7 @@ export default {
       let vm = this;
       fetch("https://cat-fact.herokuapp.com/facts")
         .then(response => response.json())
-        .then(data => (vm.facts = data.all));
+        .then(data => (vm.facts = data ? data : []));
     }
   }
 };
